@@ -1,5 +1,5 @@
 {
-  "name": "nodejsfileupload",
+  "name": "crawler",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -13,6 +13,7 @@
     "morgan": "~1.7.0",
     "multer": "^1.2.1",
     "pug": "2.0.0-beta6",
-    "serve-favicon": "~2.3.0"
+    "node-fetch": "~2.6.6",
+    "puppeteer": "^13.0.0"
   }
 }
