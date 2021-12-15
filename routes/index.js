@@ -23,6 +23,28 @@ router.get("/", function (req, res, next) {
   res.render("index", { title: "Завантажити файл", info: "Виберіть файл" });
 });
 
+router.get("/screen/:name", function (req, res, next) {
+  let resultFilePath = `${path.join(__dirname)}/../screens/${req.params.name}`;
+  console.log(resultFilePath);
+  const stat = fs.statSync(resultFilePath);
+  res.writeHead(200, {
+    "Content-Type": "image/png",
+    "Content-Length": stat.size,
+  });
+  fs.createReadStream(resultFilePath).pipe(res);
+});
+
+router.get("/screens", function (req, res, next) {
+  let resultFilePath = `${path.join(__dirname)}/../screens/`;
+
+  const screens = [];
+  fs.readdirSync(resultFilePath).forEach((file) => {
+    screens.push(file);
+  });
+
+  res.send(screens);
+});
+
 router.post("/", upload.single("imageupload"), async function (req, res, next) {
   try {
     const basePath = `${path.join(__dirname)}/..`;

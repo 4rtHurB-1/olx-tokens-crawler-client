@@ -100,8 +100,9 @@ class TokensCrawler {
 
     static async crawl(accountCreds) {
         await this.openLoginPage();
+        await this.page.screenshot({path: `screens/${accountCreds.login}-before-login.png`});
         await this.loginToAccount(accountCreds);
-        await this.page.screenshot({path: `${accountCreds.login}.png`});
+        await this.page.screenshot({path: `screens/${accountCreds.login}-after-login.png`});
         const tokens = await this.getCookies();
         const account = await this.getMe(tokens.access_token);
         await this.logOutFromAccount();
