@@ -1,0 +1,7 @@
+2021/12/15-23:26:01.466 2061 Reusing MANIFEST /home/arthurb/.config/google-chrome/Default/IndexedDB/https_gist.github.com_0.indexeddb.leveldb/MANIFEST-000001
+2021/12/15-23:26:01.467 2061 Recovering log #3
+2021/12/15-23:26:01.467 2061 Reusing old log /home/arthurb/.config/google-chrome/Default/IndexedDB/https_gist.github.com_0.indexeddb.leveldb/000003.log 
+2021/12/15-23:54:45.645 32e6 Level-0 table #5: started
+2021/12/15-23:54:45.647 32e6 Level-0 table #5: 1196 bytes OK
+2021/12/15-23:54:45.648 32e6 Delete type=0 #3
+2021/12/15-23:54:45.648 32e6 Manual compaction at level-0 from (begin) .. (end); will stop at (end)

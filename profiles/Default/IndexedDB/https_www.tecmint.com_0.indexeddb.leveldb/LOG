@@ -1,0 +1,6 @@
+2021/11/26-09:19:02.556 232e Creating DB /home/arthurb/.config/google-chrome/Default/IndexedDB/https_www.tecmint.com_0.indexeddb.leveldb since it was missing.
+2021/11/26-09:19:02.559 232e Reusing MANIFEST /home/arthurb/.config/google-chrome/Default/IndexedDB/https_www.tecmint.com_0.indexeddb.leveldb/MANIFEST-000001
+2021/11/26-09:19:22.170 235c Level-0 table #5: started
+2021/11/26-09:19:22.171 235c Level-0 table #5: 1194 bytes OK
+2021/11/26-09:19:22.173 235c Delete type=0 #3
+2021/11/26-09:19:22.173 235c Manual compaction at level-0 from (begin) .. (end); will stop at (end)

@@ -1,0 +1,6 @@
+2021/12/15-18:15:23.664 331c9 Creating DB /home/arthurb/.config/google-chrome/Default/IndexedDB/https_zoom.us_0.indexeddb.leveldb since it was missing.
+2021/12/15-18:15:23.668 331c9 Reusing MANIFEST /home/arthurb/.config/google-chrome/Default/IndexedDB/https_zoom.us_0.indexeddb.leveldb/MANIFEST-000001
+2021/12/15-18:17:41.058 33576 Level-0 table #5: started
+2021/12/15-18:17:41.059 33576 Level-0 table #5: 1224 bytes OK
+2021/12/15-18:17:41.060 33576 Delete type=0 #3
+2021/12/15-18:17:41.060 33576 Manual compaction at level-0 from (begin) .. (end); will stop at (end)

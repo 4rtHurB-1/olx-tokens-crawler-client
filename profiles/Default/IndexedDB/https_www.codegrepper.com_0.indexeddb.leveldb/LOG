@@ -1,0 +1,7 @@
+2021/12/13-13:01:15.306 8b6a Reusing MANIFEST /home/arthurb/.config/google-chrome/Default/IndexedDB/https_www.codegrepper.com_0.indexeddb.leveldb/MANIFEST-000001
+2021/12/13-13:01:15.306 8b6a Recovering log #3
+2021/12/13-13:01:15.306 8b6a Reusing old log /home/arthurb/.config/google-chrome/Default/IndexedDB/https_www.codegrepper.com_0.indexeddb.leveldb/000003.log 
+2021/12/13-13:01:27.755 8782 Level-0 table #5: started
+2021/12/13-13:01:27.757 8782 Level-0 table #5: 1202 bytes OK
+2021/12/13-13:01:27.758 8782 Delete type=0 #3
+2021/12/13-13:01:27.759 8782 Manual compaction at level-0 from (begin) .. (end); will stop at (end)

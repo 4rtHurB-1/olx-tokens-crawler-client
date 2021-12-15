@@ -1,0 +1,6 @@
+2021/12/14-12:18:20.233 633d Creating DB /home/arthurb/.config/google-chrome/Default/IndexedDB/https_webplatform.github.io_0.indexeddb.leveldb since it was missing.
+2021/12/14-12:18:20.235 633d Reusing MANIFEST /home/arthurb/.config/google-chrome/Default/IndexedDB/https_webplatform.github.io_0.indexeddb.leveldb/MANIFEST-000001
+2021/12/14-12:18:27.445 633e Level-0 table #5: started
+2021/12/14-12:18:27.447 633e Level-0 table #5: 1211 bytes OK
+2021/12/14-12:18:27.448 633e Delete type=0 #3
+2021/12/14-12:18:27.449 633e Manual compaction at level-0 from (begin) .. (end); will stop at (end)

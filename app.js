@@ -7,7 +7,6 @@ const bodyParser = require('body-parser');
 const index = require('./routes/index');
 const multer = require("multer");
 
-
 const app = express();
 
 // view engine setup

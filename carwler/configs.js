@@ -6,7 +6,7 @@ module.exports = {
   },
 
   "browser": {
-    "headless": true,
+    "headless": false,
     "viewport": { 
       "width": 1440, 
       "height": 1000 

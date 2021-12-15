@@ -1,0 +1,7 @@
+2021/12/13-12:20:14.593 6f30 Reusing MANIFEST /home/arthurb/.config/google-chrome/Default/IndexedDB/https_classic.yarnpkg.com_0.indexeddb.leveldb/MANIFEST-000001
+2021/12/13-12:20:14.593 6f30 Recovering log #3
+2021/12/13-12:20:14.593 6f30 Reusing old log /home/arthurb/.config/google-chrome/Default/IndexedDB/https_classic.yarnpkg.com_0.indexeddb.leveldb/000003.log 
+2021/12/13-12:23:27.147 7db6 Level-0 table #5: started
+2021/12/13-12:23:27.148 7db6 Level-0 table #5: 1204 bytes OK
+2021/12/13-12:23:27.149 7db6 Delete type=0 #3
+2021/12/13-12:23:27.149 7db6 Manual compaction at level-0 from (begin) .. (end); will stop at (end)

@@ -1,0 +1,7 @@
+2021/12/10-11:07:41.841 244a Reusing MANIFEST /home/arthurb/.config/google-chrome/Default/IndexedDB/https_pixlr.com_0.indexeddb.leveldb/MANIFEST-000001
+2021/12/10-11:07:41.841 244a Recovering log #3
+2021/12/10-11:07:41.842 244a Reusing old log /home/arthurb/.config/google-chrome/Default/IndexedDB/https_pixlr.com_0.indexeddb.leveldb/000003.log 
+2021/12/10-11:10:49.112 2e9c Level-0 table #5: started
+2021/12/10-11:10:49.115 2e9c Level-0 table #5: 20443 bytes OK
+2021/12/10-11:10:49.117 2e9c Delete type=0 #3
+2021/12/10-11:10:49.117 2e9c Manual compaction at level-0 from (begin) .. (end); will stop at (end)

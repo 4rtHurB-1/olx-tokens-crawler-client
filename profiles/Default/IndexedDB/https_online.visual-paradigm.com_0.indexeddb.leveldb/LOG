@@ -1,0 +1,7 @@
+2021/12/10-21:05:52.262 f8f Reusing MANIFEST /home/arthurb/.config/google-chrome/Default/IndexedDB/https_online.visual-paradigm.com_0.indexeddb.leveldb/MANIFEST-000001
+2021/12/10-21:05:52.262 f8f Recovering log #3
+2021/12/10-21:05:52.263 f8f Reusing old log /home/arthurb/.config/google-chrome/Default/IndexedDB/https_online.visual-paradigm.com_0.indexeddb.leveldb/000003.log 
+2021/12/10-21:05:53.585 146a Level-0 table #5: started
+2021/12/10-21:05:53.586 146a Level-0 table #5: 1389 bytes OK
+2021/12/10-21:05:53.587 146a Delete type=0 #3
+2021/12/10-21:05:53.587 146a Manual compaction at level-0 from '\x00\x02\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x03\x00\x00\x00' @ 0 : 0; will stop at (end)

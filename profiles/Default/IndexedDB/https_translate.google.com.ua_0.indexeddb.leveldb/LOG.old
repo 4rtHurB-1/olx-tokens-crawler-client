@@ -1,0 +1,7 @@
+2021/12/14-18:35:42.335 123f5 Reusing MANIFEST /home/arthurb/.config/google-chrome/Default/IndexedDB/https_translate.google.com.ua_0.indexeddb.leveldb/MANIFEST-000001
+2021/12/14-18:35:42.335 123f5 Recovering log #3
+2021/12/14-18:35:42.335 123f5 Reusing old log /home/arthurb/.config/google-chrome/Default/IndexedDB/https_translate.google.com.ua_0.indexeddb.leveldb/000003.log 
+2021/12/14-19:00:56.610 137df Level-0 table #5: started
+2021/12/14-19:00:56.611 137df Level-0 table #5: 1255 bytes OK
+2021/12/14-19:00:56.613 137df Delete type=0 #3
+2021/12/14-19:00:56.613 137df Manual compaction at level-0 from (begin) .. (end); will stop at (end)

@@ -1,0 +1,6 @@
+2021/12/15-13:55:54.805 283f8 Creating DB /home/arthurb/.config/google-chrome/Default/IndexedDB/https_www.geeksforgeeks.org_0.indexeddb.leveldb since it was missing.
+2021/12/15-13:55:54.808 283f8 Reusing MANIFEST /home/arthurb/.config/google-chrome/Default/IndexedDB/https_www.geeksforgeeks.org_0.indexeddb.leveldb/MANIFEST-000001
+2021/12/15-15:41:39.806 2da5c Level-0 table #5: started
+2021/12/15-15:41:39.808 2da5c Level-0 table #5: 1198 bytes OK
+2021/12/15-15:41:39.809 2da5c Delete type=0 #3
+2021/12/15-15:41:39.809 2da5c Manual compaction at level-0 from (begin) .. (end); will stop at (end)
