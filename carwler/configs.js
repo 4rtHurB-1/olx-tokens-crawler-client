@@ -12,7 +12,7 @@ module.exports = {
       "height": 1000 
     },
     // "patch": "/usr/bin/google-chrome-stable",      // Patch to browser
-    // "profilesDir": "/home/arthurb/.config/google-chrome"     // Patch to Chrome profiles dir
+    "profilesDir": "./profiles"     // Patch to Chrome profiles dir
   },
 
   "crawlCookies": ["access_token", "refresh_token"]
