@@ -1,5 +1,4 @@
 const TokensCrawler = require("./TokensCrawler");
-const accounts = require("../accounts.json");
 const configs = require('../configs');
 const { delay } = require('./utils');
 const FileStorage = require('./FileStorage');

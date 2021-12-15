@@ -24,26 +24,30 @@ router.get("/", function (req, res, next) {
 });
 
 router.post("/", upload.single("imageupload"), async function (req, res, next) {
-  const basePath = `${path.join(__dirname)}/..`;
-  let uploadFilePath = `/uploads/${req.file.filename}`;
-  let resultFilePath = `/results/${req.file.filename}`;
+  try {
+    const basePath = `${path.join(__dirname)}/..`;
+    let uploadFilePath = `/uploads/${req.file.filename}`;
+    let resultFilePath = `/results/${req.file.filename}`;
 
-  //res.render('index', { title: 'Завантажити файл', info: `Файл ${req.file.filename} завантажено успішно` });
-  const crawler = new CrawlerRunner(uploadFilePath, resultFilePath);
-  await crawler.run();
+    //res.render('index', { title: 'Завантажити файл', info: `Файл ${req.file.filename} завантажено успішно` });
+    const crawler = new CrawlerRunner(uploadFilePath, resultFilePath);
+    await crawler.run();
 
-  uploadFilePath = basePath + uploadFilePath;
-  resultFilePath = basePath + resultFilePath;
+    uploadFilePath = basePath + uploadFilePath;
+    resultFilePath = basePath + resultFilePath;
 
-  const stat = fs.statSync(resultFilePath);
-  res.writeHead(200, {
-    "Content-Type": "text/plain",
-    "Content-Length": stat.size,
-  });
-  fs.createReadStream(resultFilePath).pipe(res);
+    const stat = fs.statSync(resultFilePath);
+    res.writeHead(200, {
+      "Content-Type": "text/plain",
+      "Content-Length": stat.size,
+    });
+    fs.createReadStream(resultFilePath).pipe(res);
 
-  fs.unlinkSync(resultFilePath);
-  fs.unlinkSync(`${basePath}/uploads/${req.file.filename}`);
+    fs.unlinkSync(resultFilePath);
+    fs.unlinkSync(`${basePath}/uploads/${req.file.filename}`);
+  } catch (e) {
+    next(e);
+  }
 });
 
 module.exports = router;
