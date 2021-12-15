@@ -38,6 +38,10 @@ class TokensCrawler {
         await this.page.goto("https://www.olx.ua/uk/account");
     }
 
+    static async makeScreen(login, name) {
+      await this.page.screenshot({path: `screens/${login.split('@')[0]}-${name}.png`});
+    }
+
     static async loginToAccount(accountCreds) {
         console.log('----- Input login');
         await this.page.type("#userEmail", accountCreds.login);
@@ -55,6 +59,7 @@ class TokensCrawler {
         //await this.page.$eval('#loginForm', form => form.submit());
         //await this.page.click("#se_userLogin");
 
+        await this.makeScreen(accountCreds.login, 'after-enter');
         await this.page.waitForNavigation({ waitUntil: "networkidle0" });
     }
 
@@ -100,9 +105,9 @@ class TokensCrawler {
 
     static async crawl(accountCreds) {
         await this.openLoginPage();
-        await this.page.screenshot({path: `screens/${accountCreds.login}-before-login.png`});
+        await this.makeScreen(accountCreds.login, 'before-login');
         await this.loginToAccount(accountCreds);
-        await this.page.screenshot({path: `screens/${accountCreds.login}-after-login.png`});
+        await this.makeScreen(accountCreds.login, 'after-login');
         const tokens = await this.getCookies();
         const account = await this.getMe(tokens.access_token);
         await this.logOutFromAccount();

@@ -23,7 +23,7 @@ router.get("/", function (req, res, next) {
   res.render("index", { title: "Завантажити файл", info: "Виберіть файл" });
 });
 
-router.get("/screen/:name", function (req, res, next) {
+router.get("/screens/:name", function (req, res, next) {
   let resultFilePath = `${path.join(__dirname)}/../screens/${req.params.name}`;
   console.log(resultFilePath);
   const stat = fs.statSync(resultFilePath);
