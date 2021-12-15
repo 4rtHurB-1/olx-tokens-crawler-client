@@ -61,12 +61,14 @@ class TokensCrawler {
     static async getCookies() {
         console.log('----- Search cookies');
         const cookies = {};
+        console.log(await this.page.cookies());
         for (let cookie of await this.page.cookies()) {
           if (this.neededCookies.includes(cookie.name)) {
             cookies[cookie.name] = cookie.value;
           }
         }
 
+        console.log(cookies);
         return cookies;
     }
 
