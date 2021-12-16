@@ -1,0 +1,22 @@
+extends layout
+
+block content
+  a(href=`/`) Завантажити файл
+  h1= `Результат для ${resultName}`
+  table
+    tr
+      th Login
+      th Access token
+      th Refresh token
+    tbody
+      each res in result
+        tr
+          td #{res.account}
+          if res.error
+            td Помилка
+            td
+              a(href=`/screens/${res.screen}`) #{res.screen}
+          else
+            td #{res.access_token}
+            td #{res.refresh_token}
+  a(href=`/results/${resultName}/file`) Дивитися файл

@@ -4,6 +4,7 @@ const path = require("path");
 module.exports = class FileStorage {
   constructor(fileName) {
     this.fileName = fileName;
+    this.get();
   }
 
   _save(data) {
@@ -35,11 +36,11 @@ module.exports = class FileStorage {
   }
 
   _prepareToSave(data) {
-    return data;
+    return !Array.isArray(data) ? [data] : data;
   }
 
   _prepareToGet(data) {
-    return data;
+    return !Array.isArray(data) ? [data] : data;;
   }
 
   resave(data) {

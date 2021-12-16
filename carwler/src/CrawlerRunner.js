@@ -7,12 +7,12 @@ module.exports = class CrawlerRunner {
     constructor(inputFile, outputFile) {
         this.inputFileStorage = new FileStorage(inputFile);
         this.outputFileStorage = new FileStorage(outputFile);
+
+        this.outputFileStorage.resave([]);
     }
 
     getAccounts() {
-        let res = this.inputFileStorage.get();
-        console.log(res);
-        return res;
+        return this.inputFileStorage.get();
     }
 
     saveResult(result) {
@@ -25,9 +25,15 @@ module.exports = class CrawlerRunner {
         const result = [];
         for (let account of this.getAccounts()) {
             console.log(`\n##### Account ${account.login}`);
-            result.push(await TokensCrawler.crawl(account));
-            console.log(`----- Waiting...`);
-            await delay(configs.timeouts.perAccount);
+            try {
+                const crawlResult = await TokensCrawler.crawl(account);
+                result.push(crawlResult);
+                this.saveResult(crawlResult);
+                console.log(`----- Waiting...`);
+                await delay(configs.timeouts.perAccount);
+            } catch(e) {
+                console.log(`----- Error: ${e.message}`);
+            }
         }
     
         await TokensCrawler.closeBrowser();
@@ -35,6 +41,6 @@ module.exports = class CrawlerRunner {
         console.log(`\n##### All tokens:`);
         console.log(result);
 
-        this.saveResult(result);
+        return result;
     }
 }

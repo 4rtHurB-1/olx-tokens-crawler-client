@@ -1,6 +1,6 @@
 module.exports = {
   "timeouts": {
-    "perAccount": 5000,
+    "perAccount": 30000,
     "inputLogin": 500,
     "inputPass": 500
   },

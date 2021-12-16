@@ -1,3 +1,6 @@
 node_modules/
 profiles/
+screens/
+uploads/
+results/
 package-lock.json

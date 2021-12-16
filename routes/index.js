@@ -25,7 +25,7 @@ router.get("/", function (req, res, next) {
 
 router.get("/screens/:name", function (req, res, next) {
   let resultFilePath = `${path.join(__dirname)}/../screens/${req.params.name}`;
-  console.log(resultFilePath);
+  
   const stat = fs.statSync(resultFilePath);
   res.writeHead(200, {
     "Content-Type": "image/png",
@@ -56,28 +56,61 @@ router.get("/screens", function (req, res, next) {
   res.render("screens", { screens });
 });
 
+router.get("/results", function (req, res, next) {
+  let resultFilePath = `${path.join(__dirname)}/../results/`;
+
+  const results = [];
+  fs.readdirSync(resultFilePath).forEach((file) => {
+    results.push(file);
+  });
+
+  res.render("results", { results });
+});
+
+router.get("/results/:name/file", function (req, res, next) {
+  let resultFilePath = `${path.join(__dirname)}/../results/${req.params.name}`;
+  console.log(resultFilePath);
+  const stat = fs.statSync(resultFilePath);
+  res.writeHead(200, {
+    "Content-Type": "text/plain",
+    "Content-Length": stat.size,
+  });
+  fs.createReadStream(resultFilePath).pipe(res);
+});
+
+router.get("/results/:name", function (req, res, next) {
+  let resultFilePath = `${path.join(__dirname)}/../results/${req.params.name}`;
+  console.log(resultFilePath);
+  const results = fs.readFileSync(
+    resultFilePath,
+    "utf8"
+  );
+
+  res.render("result", { result: JSON.parse(results), resultName: req.params.name });
+});
+
 router.post("/", upload.single("imageupload"), async function (req, res, next) {
   try {
     const basePath = `${path.join(__dirname)}/..`;
     let uploadFilePath = `/uploads/${req.file.filename}`;
     let resultFilePath = `/results/${req.file.filename}`;
 
-    //res.render('index', { title: 'Завантажити файл', info: `Файл ${req.file.filename} завантажено успішно` });
-    const crawler = new CrawlerRunner(uploadFilePath, resultFilePath);
-    await crawler.run();
+    res.redirect(`/results/${req.file.filename}`);
 
-    uploadFilePath = basePath + uploadFilePath;
-    resultFilePath = basePath + resultFilePath;
-
-    const stat = fs.statSync(resultFilePath);
-    res.writeHead(200, {
-      "Content-Type": "text/plain",
-      "Content-Length": stat.size,
-    });
-    fs.createReadStream(resultFilePath).pipe(res);
-
-    fs.unlinkSync(resultFilePath);
+    await (new CrawlerRunner(uploadFilePath, resultFilePath)).run();
     fs.unlinkSync(`${basePath}/uploads/${req.file.filename}`);
+
+    // uploadFilePath = basePath + uploadFilePath;
+    // resultFilePath = basePath + resultFilePath;
+
+    // const stat = fs.statSync(resultFilePath);
+    // res.writeHead(200, {
+    //   "Content-Type": "text/plain",
+    //   "Content-Length": stat.size,
+    // });
+    // fs.createReadStream(resultFilePath).pipe(res);
+
+    //fs.unlinkSync(resultFilePath);
   } catch (e) {
     next(e);
   }
