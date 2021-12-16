@@ -2,7 +2,10 @@ extends layout
 
 block content
   h1= 'Screens'
-  ul
     each val in screens
-      li
-        a(href=`/screens/${val}`) #{val}
+      h3= val.login
+      ul
+      each scr in val.screens
+        li
+          a(href=`/screens/${scr}`) #{scr}
+        br

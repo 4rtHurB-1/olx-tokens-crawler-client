@@ -39,7 +39,7 @@ class TokensCrawler {
     }
 
     static async makeScreen(login, name) {
-      await this.page.screenshot({path: `screens/${login.split('@')[0]}-${name}.png`});
+      await this.page.screenshot({path: `screens/${login.split('@')[0]}&${name}.png`});
     }
 
     static async loginToAccount(accountCreds) {
@@ -59,7 +59,7 @@ class TokensCrawler {
         //await this.page.$eval('#loginForm', form => form.submit());
         //await this.page.click("#se_userLogin");
 
-        await this.makeScreen(accountCreds.login, 'after-enter');
+        //await this.makeScreen(accountCreds.login, 'after-enter');
         await this.page.waitForNavigation({ waitUntil: "networkidle0" });
     }
 

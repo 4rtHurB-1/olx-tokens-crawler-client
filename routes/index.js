@@ -39,7 +39,18 @@ router.get("/screens", function (req, res, next) {
 
   const screens = [];
   fs.readdirSync(resultFilePath).forEach((file) => {
-    screens.push(file);
+    const login = file.split("&")[0];
+
+    let loginScreens = screens.find((scr) => scr.login === login);
+    if (!loginScreens) {
+      loginScreens = {
+        login,
+        screens: [],
+      };
+      screens.push(loginScreens);
+    }
+
+    loginScreens.screens.push(file);
   });
 
   res.render("screens", { screens });
