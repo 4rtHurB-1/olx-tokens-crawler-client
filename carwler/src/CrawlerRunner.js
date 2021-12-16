@@ -4,47 +4,53 @@ const { delay, getScreenName } = require('./utils');
 const FileStorage = require('./FileStorage');
 
 module.exports = class CrawlerRunner {
-    constructor(inputFile, outputFile) {
-        this.inputFileStorage = new FileStorage(inputFile);
-        this.outputFileStorage = new FileStorage(outputFile);
-
-        this.outputFileStorage.resave([]);
+    constructor(accounts) {
+        this.accounts = accounts;
     }
 
-    getAccounts() {
-        return this.inputFileStorage.get();
+    onItemCrawl(fn) {
+        this.onCrawlItemFn = fn;
+        return this;
     }
 
-    saveResult(result) {
-        this.outputFileStorage.save(result);
+    onError(fn) {
+        this.onErrorFn = fn;
+        return this;
     }
 
     async run() {
         await TokensCrawler.openBrowser();
 
         const result = [];
-        for (let account of this.getAccounts()) {
+        for (let account of this.accounts) {
             let crawlResult = {};
 
             console.log(`\n##### Account ${account.login}`);
             try {
                 crawlResult = await TokensCrawler.crawl(account);
 
+                if (!crawlResult.account) {
+                    throw new Error(`Cant login`);
+                }
+
+                result.push(crawlResult);
+                if (this.onCrawlItemFn) {
+                    this.onCrawlItemFn(crawlResult);
+                }
+
                 console.log(`----- Waiting...`);
                 await delay(configs.timeouts.perAccount);
             } catch(e) {
-                crawlResult.error = e.message;
                 console.log(`----- Error: ${e.message}`);
-            }
 
-            if (!crawlResult.account) {
-                crawlResult.account = accountCreds.login;
-                crawlResult.error = crawlResult.error || 'Unknown';
-                crawlResult.screen = getScreenName(accountCreds.login, "after-login");
+                if (this.onErrorFn) {
+                    this.onErrorFn(account, {
+                        account: account.login,
+                        error: e.message,
+                        screen: getScreenName(account.login, "error"),
+                    });
+                }
             }
-
-            result.push(crawlResult);
-            this.saveResult(crawlResult);
         }
     
         await TokensCrawler.closeBrowser();

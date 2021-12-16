@@ -40,6 +40,9 @@ class TokensCrawler {
     await this.page.setViewport(configs.browser.viewport);
     console.log("----- Going to OLX");
     await this.page.goto("https://www.olx.ua/uk/account");
+    await this.page.setUserAgent(
+      "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36"
+    );
   }
 
   static async makeScreen(login, name) {
@@ -57,8 +60,6 @@ class TokensCrawler {
 
     await delay(configs.timeouts.inputPass);
 
-    await this.makeScreen(accountCreds.login, "before-login");
-    
     console.log("----- Logining");
     await this.page.keyboard.press("Enter");
     // Old ways to click button
@@ -66,7 +67,9 @@ class TokensCrawler {
     //await this.page.click("#se_userLogin");
 
     //await this.makeScreen(accountCreds.login, 'after-enter');
-    await this.page.waitForNavigation({ waitUntil: "networkidle0" });
+    //await this.page.waitForNavigation({ waitUntil: "networkidle0" });
+    // userbox-dd__user-name
+    await this.page.waitForSelector(".userbox-dd__user-name");
   }
 
   static async getCookies() {
@@ -108,14 +111,18 @@ class TokensCrawler {
   }
 
   static async crawl(accountCreds) {
-    await this.openLoginPage();
-    await this.loginToAccount(accountCreds);
-    await this.makeScreen(accountCreds.login, "after-login");
-    const tokens = await this.getCookies();
-    const account = await this.getMe(tokens.access_token);
-    await this.logOutFromAccount();
+    try {
+      await this.openLoginPage();
+      await this.loginToAccount(accountCreds);
+      const tokens = await this.getCookies();
+      const account = await this.getMe(tokens.access_token);
+      await this.logOutFromAccount();
 
-    return { account, ...tokens };
+      return { account, ...tokens };
+    } catch(e) {
+      await this.makeScreen(accountCreds.login, "error");
+      throw e;
+    }
   }
 }
 

@@ -2,8 +2,9 @@ const fs = require("fs");
 const path = require("path");
 
 module.exports = class FileStorage {
-  constructor(fileName) {
+  constructor(fileName, idKey) {
     this.fileName = fileName;
+    this.idKey = idKey;
     this.get();
   }
 
@@ -48,7 +49,23 @@ module.exports = class FileStorage {
   }
 
   save(data) {
-    return this._save([...(this._get() || []), ...this._prepareToSave(data)]);
+    let allData = (this._get() || []);
+    const dataToSave = this._prepareToSave(data);
+
+    if (this.idKey) {
+      for (let itemToSave of dataToSave) {
+        const found = allData.find(item => item[this.idKey] === itemToSave[this.idKey]);
+        if (found) {
+          allData[allData.indexOf(found)] = itemToSave;
+        } else {
+          allData.push(itemToSave);
+        }
+      }
+    } else {
+      allData = allData.concat(dataToSave);
+    }
+
+    return this._save(allData);
   }
 
   delete(data) {
@@ -59,6 +76,11 @@ module.exports = class FileStorage {
     );
     
     return this.resave(proxies);
+  }
+
+  clear() {
+    this._save([]);
+    return this;
   }
 
   get() {

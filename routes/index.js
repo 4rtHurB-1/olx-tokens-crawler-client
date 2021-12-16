@@ -4,6 +4,8 @@ const fs = require("fs");
 const path = require("path");
 
 const CrawlerRunner = require("../carwler");
+const FileStorage = require("../carwler/src/FileStorage");
+const {delay} = require("../carwler/src/utils");
 
 //multer object creation
 var multer = require("multer");
@@ -25,7 +27,7 @@ router.get("/", function (req, res, next) {
 
 router.get("/screens/:name", function (req, res, next) {
   let resultFilePath = `${path.join(__dirname)}/../screens/${req.params.name}`;
-  
+
   const stat = fs.statSync(resultFilePath);
   res.writeHead(200, {
     "Content-Type": "image/png",
@@ -69,7 +71,6 @@ router.get("/results", function (req, res, next) {
 
 router.get("/results/:name/file", function (req, res, next) {
   let resultFilePath = `${path.join(__dirname)}/../results/${req.params.name}`;
-  console.log(resultFilePath);
   const stat = fs.statSync(resultFilePath);
   res.writeHead(200, {
     "Content-Type": "text/plain",
@@ -81,35 +82,48 @@ router.get("/results/:name/file", function (req, res, next) {
 router.get("/results/:name", function (req, res, next) {
   let resultFilePath = `${path.join(__dirname)}/../results/${req.params.name}`;
   console.log(resultFilePath);
-  const results = fs.readFileSync(
-    resultFilePath,
-    "utf8"
-  );
+  const results = fs.readFileSync(resultFilePath, "utf8");
 
-  res.render("result", { result: JSON.parse(results), resultName: req.params.name });
+  res.render("result", {
+    result: JSON.parse(results),
+    resultName: req.params.name,
+  });
 });
+
+async function runCrawl(fileStorage, resultFileStorage) {
+  try {
+    const accounts = fileStorage.get().slice(0, 5);
+    fileStorage.resave(fileStorage.get().slice(5));
+
+    const runner = new CrawlerRunner(accounts)
+      .onItemCrawl((crawledResult) => resultFileStorage.save(crawledResult))
+      .onError((account, crawlerResult) => {
+        fileStorage.save(account);
+        resultFileStorage.save(crawlerResult)
+      });
+    
+    await runner.run();
+  } catch (e) {
+    console.log(e.message);
+  }
+}
 
 router.post("/", upload.single("imageupload"), async function (req, res, next) {
   try {
-    const basePath = `${path.join(__dirname)}/..`;
-    let uploadFilePath = `/uploads/${req.file.filename}`;
-    let resultFilePath = `/results/${req.file.filename}`;
+    const uploadFile = req.file.filename;
+    
+    res.redirect(`/results/${uploadFile}`);
 
-    res.redirect(`/results/${req.file.filename}`);
+    const fileStorage = new FileStorage(`/uploads/${uploadFile}`);
+    const resultFileStorage = new FileStorage(`/results/${uploadFile}`, 'account').clear();
 
-    await (new CrawlerRunner(uploadFilePath, resultFilePath)).run();
-    fs.unlinkSync(`${basePath}/uploads/${req.file.filename}`);
+    while (fileStorage.get().length) {
+      await runCrawl(fileStorage, resultFileStorage);
+      console.log('@@@ Waiting 5 min.');
+      await delay(10000 * 60 * 3);
+    }
 
-    // uploadFilePath = basePath + uploadFilePath;
-    // resultFilePath = basePath + resultFilePath;
-
-    // const stat = fs.statSync(resultFilePath);
-    // res.writeHead(200, {
-    //   "Content-Type": "text/plain",
-    //   "Content-Length": stat.size,
-    // });
-    // fs.createReadStream(resultFilePath).pipe(res);
-
+    //fs.unlinkSync(`${basePath}/uploads/${req.file.filename}`);
     //fs.unlinkSync(resultFilePath);
   } catch (e) {
     next(e);
