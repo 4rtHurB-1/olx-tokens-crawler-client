@@ -1,6 +1,6 @@
 const TokensCrawler = require("./TokensCrawler");
 const configs = require('../configs');
-const { delay } = require('./utils');
+const { delay, getScreenName } = require('./utils');
 const FileStorage = require('./FileStorage');
 
 module.exports = class CrawlerRunner {
@@ -24,16 +24,27 @@ module.exports = class CrawlerRunner {
 
         const result = [];
         for (let account of this.getAccounts()) {
+            let crawlResult = {};
+
             console.log(`\n##### Account ${account.login}`);
             try {
-                const crawlResult = await TokensCrawler.crawl(account);
-                result.push(crawlResult);
-                this.saveResult(crawlResult);
+                crawlResult = await TokensCrawler.crawl(account);
+
                 console.log(`----- Waiting...`);
                 await delay(configs.timeouts.perAccount);
             } catch(e) {
+                crawlResult.error = e.message;
                 console.log(`----- Error: ${e.message}`);
             }
+
+            if (!crawlResult.account) {
+                crawlResult.account = accountCreds.login;
+                crawlResult.error = crawlResult.error || 'Unknown';
+                crawlResult.screen = getScreenName(accountCreds.login, "after-login");
+            }
+
+            result.push(crawlResult);
+            this.saveResult(crawlResult);
         }
     
         await TokensCrawler.closeBrowser();

@@ -57,6 +57,8 @@ class TokensCrawler {
 
     await delay(configs.timeouts.inputPass);
 
+    await this.makeScreen(accountCreds.login, "before-login");
+    
     console.log("----- Logining");
     await this.page.keyboard.press("Enter");
     // Old ways to click button
@@ -107,20 +109,11 @@ class TokensCrawler {
 
   static async crawl(accountCreds) {
     await this.openLoginPage();
-    await this.makeScreen(accountCreds.login, "before-login");
     await this.loginToAccount(accountCreds);
     await this.makeScreen(accountCreds.login, "after-login");
     const tokens = await this.getCookies();
     const account = await this.getMe(tokens.access_token);
     await this.logOutFromAccount();
-
-    if (!account || !tokens) {
-      return {
-        account: accountCreds.login,
-        error: true,
-        screen: getScreenName(accountCreds.login, "after-login"),
-      };
-    }
 
     return { account, ...tokens };
   }
