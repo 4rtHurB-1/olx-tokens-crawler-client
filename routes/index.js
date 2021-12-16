@@ -120,7 +120,7 @@ router.post("/", upload.single("imageupload"), async function (req, res, next) {
     while (fileStorage.get().length) {
       await runCrawl(fileStorage, resultFileStorage);
       console.log('@@@ Waiting 5 min.');
-      await delay(10000 * 60 * 3);
+      await delay(1000 * 60 * 3);
     }
 
     //fs.unlinkSync(`${basePath}/uploads/${req.file.filename}`);
