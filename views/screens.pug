@@ -1,0 +1,8 @@
+extends layout
+
+block content
+  h1= 'Screens'
+  ul
+    each val in screens
+      li
+        a(href=`/screens/${val}`) #{val}

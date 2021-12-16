@@ -42,7 +42,7 @@ router.get("/screens", function (req, res, next) {
     screens.push(file);
   });
 
-  res.send(screens);
+  res.render("screens", { screens });
 });
 
 router.post("/", upload.single("imageupload"), async function (req, res, next) {
