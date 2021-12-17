@@ -1,6 +1,0 @@
-2021/11/25-13:14:35.429 5bcc Creating DB /home/arthurb/.config/google-chrome/Default/IndexedDB/https_www.tutorialspoint.com_0.indexeddb.leveldb since it was missing.
-2021/11/25-13:14:35.432 5bcc Reusing MANIFEST /home/arthurb/.config/google-chrome/Default/IndexedDB/https_www.tutorialspoint.com_0.indexeddb.leveldb/MANIFEST-000001
-2021/11/25-13:14:54.226 5791 Level-0 table #5: started
-2021/11/25-13:14:54.227 5791 Level-0 table #5: 1208 bytes OK
-2021/11/25-13:14:54.228 5791 Delete type=0 #3
-2021/11/25-13:14:54.228 5791 Manual compaction at level-0 from (begin) .. (end); will stop at (end)

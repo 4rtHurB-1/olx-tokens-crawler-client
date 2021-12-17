@@ -1,6 +1,0 @@
-2021/12/09-15:54:08.783 39f0 Creating DB /home/arthurb/.config/google-chrome/Default/IndexedDB/http_ontogovorun.ru_0.indexeddb.leveldb since it was missing.
-2021/12/09-15:54:08.793 39f0 Reusing MANIFEST /home/arthurb/.config/google-chrome/Default/IndexedDB/http_ontogovorun.ru_0.indexeddb.leveldb/MANIFEST-000001
-2021/12/09-15:56:03.663 2f19 Level-0 table #5: started
-2021/12/09-15:56:03.664 2f19 Level-0 table #5: 1239 bytes OK
-2021/12/09-15:56:03.666 2f19 Delete type=0 #3
-2021/12/09-15:56:03.666 2f19 Manual compaction at level-0 from (begin) .. (end); will stop at (end)

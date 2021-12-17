@@ -1,7 +1,0 @@
-2021/12/15-18:29:25.266 33f7e Reusing MANIFEST /home/arthurb/.config/google-chrome/Default/IndexedDB/https_glimmerjs.github.io_0.indexeddb.leveldb/MANIFEST-000001
-2021/12/15-18:29:25.266 33f7e Recovering log #3
-2021/12/15-18:29:25.266 33f7e Reusing old log /home/arthurb/.config/google-chrome/Default/IndexedDB/https_glimmerjs.github.io_0.indexeddb.leveldb/000003.log 
-2021/12/15-19:22:52.788 363a3 Level-0 table #5: started
-2021/12/15-19:22:52.789 363a3 Level-0 table #5: 1259 bytes OK
-2021/12/15-19:22:52.791 363a3 Delete type=0 #3
-2021/12/15-19:22:52.792 363a3 Manual compaction at level-0 from (begin) .. (end); will stop at (end)

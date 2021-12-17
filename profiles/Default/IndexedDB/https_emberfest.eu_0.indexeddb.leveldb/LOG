@@ -1,6 +1,0 @@
-2021/12/14-20:18:02.691 236f Creating DB /home/arthurb/.config/google-chrome/Default/IndexedDB/https_emberfest.eu_0.indexeddb.leveldb since it was missing.
-2021/12/14-20:18:02.694 236f Reusing MANIFEST /home/arthurb/.config/google-chrome/Default/IndexedDB/https_emberfest.eu_0.indexeddb.leveldb/MANIFEST-000001
-2021/12/14-20:19:46.295 24a3 Level-0 table #5: started
-2021/12/14-20:19:46.296 24a3 Level-0 table #5: 1194 bytes OK
-2021/12/14-20:19:46.298 24a3 Delete type=0 #3
-2021/12/14-20:19:46.298 24a3 Manual compaction at level-0 from (begin) .. (end); will stop at (end)

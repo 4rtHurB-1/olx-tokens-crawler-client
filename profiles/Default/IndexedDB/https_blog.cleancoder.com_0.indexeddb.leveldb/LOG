@@ -1,7 +1,0 @@
-2021/12/09-14:13:09.359 18c4 Reusing MANIFEST /home/arthurb/.config/google-chrome/Default/IndexedDB/https_blog.cleancoder.com_0.indexeddb.leveldb/MANIFEST-000001
-2021/12/09-14:13:09.359 18c4 Recovering log #3
-2021/12/09-14:13:09.359 18c4 Reusing old log /home/arthurb/.config/google-chrome/Default/IndexedDB/https_blog.cleancoder.com_0.indexeddb.leveldb/000003.log 
-2021/12/09-14:13:37.860 18b3 Level-0 table #5: started
-2021/12/09-14:13:37.861 18b3 Level-0 table #5: 1251 bytes OK
-2021/12/09-14:13:37.863 18b3 Delete type=0 #3
-2021/12/09-14:13:37.863 18b3 Manual compaction at level-0 from (begin) .. (end); will stop at (end)

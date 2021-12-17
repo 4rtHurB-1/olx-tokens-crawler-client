@@ -1,6 +1,0 @@
-2021/12/14-16:32:56.242 db61 Creating DB /home/arthurb/.config/google-chrome/Default/IndexedDB/http_localhost_62345.indexeddb.leveldb since it was missing.
-2021/12/14-16:32:56.244 db61 Reusing MANIFEST /home/arthurb/.config/google-chrome/Default/IndexedDB/http_localhost_62345.indexeddb.leveldb/MANIFEST-000001
-2021/12/14-16:59:34.877 e76b Level-0 table #5: started
-2021/12/14-16:59:34.879 e76b Level-0 table #5: 1235 bytes OK
-2021/12/14-16:59:34.881 e76b Delete type=0 #3
-2021/12/14-16:59:34.881 e76b Manual compaction at level-0 from (begin) .. (end); will stop at (end)

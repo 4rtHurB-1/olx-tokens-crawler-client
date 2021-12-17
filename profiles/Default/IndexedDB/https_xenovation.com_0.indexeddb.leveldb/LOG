@@ -1,6 +1,0 @@
-2021/12/15-15:24:40.969 2cd0f Creating DB /home/arthurb/.config/google-chrome/Default/IndexedDB/https_xenovation.com_0.indexeddb.leveldb since it was missing.
-2021/12/15-15:24:40.971 2cd0f Reusing MANIFEST /home/arthurb/.config/google-chrome/Default/IndexedDB/https_xenovation.com_0.indexeddb.leveldb/MANIFEST-000001
-2021/12/15-15:25:49.916 2cd0f Level-0 table #5: started
-2021/12/15-15:25:49.918 2cd0f Level-0 table #5: 1242 bytes OK
-2021/12/15-15:25:49.919 2cd0f Delete type=0 #3
-2021/12/15-15:25:49.919 2cd0f Manual compaction at level-0 from (begin) .. (end); will stop at (end)

@@ -1,7 +1,0 @@
-2021/12/10-14:07:48.922 5f98 Reusing MANIFEST /home/arthurb/.config/google-chrome/Default/IndexedDB/https_refactoring.guru_0.indexeddb.leveldb/MANIFEST-000001
-2021/12/10-14:07:48.922 5f98 Recovering log #3
-2021/12/10-14:07:48.922 5f98 Reusing old log /home/arthurb/.config/google-chrome/Default/IndexedDB/https_refactoring.guru_0.indexeddb.leveldb/000003.log 
-2021/12/10-15:33:24.826 6e94 Level-0 table #5: started
-2021/12/10-15:33:24.827 6e94 Level-0 table #5: 1241 bytes OK
-2021/12/10-15:33:24.829 6e94 Delete type=0 #3
-2021/12/10-15:33:24.829 6e94 Manual compaction at level-0 from (begin) .. (end); will stop at (end)
