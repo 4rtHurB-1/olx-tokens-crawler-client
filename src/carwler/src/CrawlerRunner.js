@@ -3,9 +3,15 @@ const defaultConfigs = require("../defaultConfigs");
 const { delay, getScreenName, getNestedValue } = require("./utils");
 
 module.exports = class CrawlerRunner {
-  constructor(accounts, configs) {
+  constructor(accounts, browserConfigs) {
     this.accounts = accounts;
-    this.configs = configs || defaultConfigs;
+    this.configs = { 
+      ...defaultConfigs,
+      browser: {
+        ...defaultConfigs.browser,
+        ...browserConfigs
+      } 
+    };
 
     TokensCrawler.setConfigs(this.configs);
   }

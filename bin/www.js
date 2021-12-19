@@ -2,6 +2,8 @@
 
 const app = require("../src/app");
 const FileStorage = require("../src/storages/FileStorage");
+const ConfigsFileStorage = require("../src/storages/ConfigsFileStorage");
+const AccountFileStorage = require("../src/storages/AccountFileStorage");
 const AppCrawlerRunner = require("../src/AppCrawlerRunner");
 const http = require("http");
 const open = require("open");
@@ -60,17 +62,14 @@ async function onListening() {
     fs.mkdirSync(dir);
   }
 
-  const configsStorage = new FileStorage("configs", { dataType: "object" });
-  if (!configsStorage.get().browser) {
-    configsStorage.save({});
-  }
+  const configsStorage = new ConfigsFileStorage("configs", { dataType: "object" });
 
   const resultStorage = new FileStorage(".result", {
     idKey: "account",
   }).clear();
 
   const srcStorage = new FileStorage(`.src`, { idKey: "login" });
-  srcStorage.resave(new FileStorage(`accounts`).get());
+  srcStorage.resave(new AccountFileStorage(`accounts`).get());
 
   setTimeout(() => {
     open(`http://localhost:${port}/result`);

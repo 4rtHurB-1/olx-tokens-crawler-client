@@ -7,13 +7,19 @@ const { delay, getScreenPath, getNestedValue, parseWindowsPath } = require("./ut
 class TokensCrawler {
   static configs = defaultConfigs;
 
-  static setConfigs(configs) {
-    this.configs = configs;
+  static setConfigs(browserConfigs) {
+    this.configs = { 
+      ...defaultConfigs,
+      browser: {
+        ...defaultConfigs.browser,
+        ...browserConfigs
+      } 
+    };
   }
 
   static _getConfig(name) {
     
-    return getNestedValue(this.configs, name) || getNestedValue(defaultConfigs, name);
+    return getNestedValue(this.configs, name);
   }
 
   static async openBrowser() {

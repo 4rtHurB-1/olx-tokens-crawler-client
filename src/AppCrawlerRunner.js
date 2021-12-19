@@ -9,13 +9,13 @@ module.exports = class AppCrawlerRunner {
   }
 
   async process() {
-    const configs = this.configStorage.get();
+    const browserConfigs = this.configStorage.get();
     const accounts = this.srcStorage.get().slice(0, 5);
     this.srcStorage.resave(this.srcStorage.get().slice(5));
 
     await new CrawlerRunner(
       accounts,
-      configs && !Array.isArray(configs) ? configs : null
+      browserConfigs && browserConfigs.length ? browserConfigs : null
     )
       .onItemCrawl((crawledResult) => this.resultStorage.save(crawledResult))
       .onError((account, crawlerResult) => {
@@ -26,6 +26,7 @@ module.exports = class AppCrawlerRunner {
   }
 
   async run() {
+    console.log(this.configStorage.get());
     TokensCrawler.setConfigs(this.configStorage.get());
     await TokensCrawler.openBrowser();
 
