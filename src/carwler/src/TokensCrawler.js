@@ -1,27 +1,37 @@
-const puppeteer = require("puppeteer");
+const puppeteer = require("puppeteer-core");
 const fetch = require("node-fetch");
 
-const { delay, getScreenPath, getScreenName } = require("./utils");
-const configs = require("../configs");
+const defaultConfigs = require('../defaultConfigs');
+const { delay, getScreenPath, getNestedValue, parseWindowsPath } = require("./utils");
 
 class TokensCrawler {
-  static neededCookies = configs.crawlCookies;
+  static configs = defaultConfigs;
+
+  static setConfigs(configs) {
+    this.configs = configs;
+  }
+
+  static _getConfig(name) {
+    
+    return getNestedValue(this.configs, name) || getNestedValue(defaultConfigs, name);
+  }
 
   static async openBrowser() {
     console.log("----- Opening browser");
     const options = {
-      headless: configs.browser.headless,
+      headless: this._getConfig('browser.headless'),
       args: [],
     };
 
-    if (configs.browser.patch) {
-      options.executablePath = configs.browser.patch;
+    if(this._getConfig('browser.path')) {
+      options.executablePath = parseWindowsPath(this._getConfig('browser.path'));
     }
 
-    if (configs.browser.profilesDir) {
-      options.args.push(`--user-data-dir=${configs.browser.profilesDir}`);
+    if (this._getConfig('browser.profilesDir')) {
+      options.args.push(`--user-data-dir=${parseWindowsPath(this._getConfig('browser.profilesDir'))}`);
     }
 
+    console.log(options);
     this.browser = await puppeteer.launch(options);
 
     this.page = await this.browser.newPage();
@@ -37,7 +47,7 @@ class TokensCrawler {
   static async openLoginPage() {
     console.log("----- Opening new page");
     this.page = await this.browser.newPage();
-    await this.page.setViewport(configs.browser.viewport);
+    await this.page.setViewport(this._getConfig('browser.viewport'));
     console.log("----- Going to OLX");
     await this.page.goto("https://www.olx.ua/uk/account");
     await this.page.setUserAgent(
@@ -51,14 +61,18 @@ class TokensCrawler {
 
   static async loginToAccount(accountCreds) {
     console.log("----- Input login");
+
+    await delay(this._getConfig('timeouts.inputLogin'));
+    await this.page.evaluate( () => document.getElementById("userEmail").value = "");
     await this.page.type("#userEmail", accountCreds.login);
 
-    await delay(configs.timeouts.inputLogin);
+    await delay(this._getConfig('timeouts.inputLogin'));
 
     console.log("----- Input pass");
+    await this.page.evaluate( () => document.getElementById("userPass").value = "");
     await this.page.type("#userPass", accountCreds.pass);
 
-    await delay(configs.timeouts.inputPass);
+    await delay(this._getConfig('timeouts.inputPass'));
 
     console.log("----- Logining");
     await this.page.keyboard.press("Enter");
@@ -66,9 +80,7 @@ class TokensCrawler {
     //await this.page.$eval('#loginForm', form => form.submit());
     //await this.page.click("#se_userLogin");
 
-    //await this.makeScreen(accountCreds.login, 'after-enter');
     //await this.page.waitForNavigation({ waitUntil: "networkidle0" });
-    // userbox-dd__user-name
     await this.page.waitForSelector(".userbox-dd__user-name");
   }
 
@@ -76,7 +88,7 @@ class TokensCrawler {
     console.log("----- Search cookies");
     const cookies = {};
     for (let cookie of await this.page.cookies()) {
-      if (this.neededCookies.includes(cookie.name)) {
+      if (this._getConfig('crawlCookies').includes(cookie.name)) {
         cookies[cookie.name] = cookie.value;
       }
     }
@@ -119,8 +131,9 @@ class TokensCrawler {
       await this.logOutFromAccount();
 
       return { account, ...tokens };
-    } catch(e) {
+    } catch (e) {
       await this.makeScreen(accountCreds.login, "error");
+      await this.logOutFromAccount();
       throw e;
     }
   }

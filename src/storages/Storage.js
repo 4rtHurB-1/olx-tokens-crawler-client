@@ -1,39 +1,23 @@
-const fs = require("fs");
-const path = require("path");
+const storage = new Map();
 
-module.exports = class FileStorage {
-  constructor(fileName, idKey) {
-    this.fileName = fileName;
+module.exports = class Storage {
+  constructor(name, idKey) {
+    this.name = name;
     this.idKey = idKey;
     this.get();
   }
 
   _save(data) {
-    try {
-      fs.writeFileSync(
-        path.join(process.cwd(), this.fileName),
-        JSON.stringify(data)
-      );
-      return true;
-    } catch (err) {
-      return false;
-    }
+    storage.set(this.name, data);
+    return true;
   }
 
   _get() {
-    try {
-      let content = fs.readFileSync(
-        path.join(process.cwd(), this.fileName),
-        "utf8"
-      );
-      return JSON.parse(content);
-    } catch (err) {
-      if (err.message.indexOf('ENOENT') !== -1) {
-        this._save([]);
-      }
-
-      return [];
+    if(!storage.get(this.name)) {
+      this._save([]);
     }
+    
+    return storage.get(this.name);
   }
 
   _prepareToSave(data) {
