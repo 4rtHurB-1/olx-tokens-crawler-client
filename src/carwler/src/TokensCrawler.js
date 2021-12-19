@@ -36,7 +36,8 @@ class TokensCrawler {
 
     this.page = await this.browser.newPage();
     console.log("----- Start log out");
-    this.page.goto("https://www.olx.ua/uk/account/logout/");
+    await this.page.goto("https://www.olx.ua/uk/account/logout/");
+    await this.page.close();
   }
 
   static async closeBrowser() {

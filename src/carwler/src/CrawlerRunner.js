@@ -6,6 +6,8 @@ module.exports = class CrawlerRunner {
   constructor(accounts, configs) {
     this.accounts = accounts;
     this.configs = configs || defaultConfigs;
+
+    TokensCrawler.setConfigs(this.configs);
   }
 
   onItemCrawl(fn) {
@@ -25,9 +27,6 @@ module.exports = class CrawlerRunner {
   }
 
   async run() {
-    TokensCrawler.setConfigs(this.configs);
-    await TokensCrawler.openBrowser();
-
     const result = [];
     for (let account of this.accounts) {
       let crawlResult = {};
@@ -59,8 +58,6 @@ module.exports = class CrawlerRunner {
         }
       }
     }
-
-    await TokensCrawler.closeBrowser();
 
     console.log(`\n##### All tokens:`);
     console.log(result);

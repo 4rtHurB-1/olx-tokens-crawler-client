@@ -1,8 +1,8 @@
 extends layout
 
 block content
-  a(href=`/`) Завантажити файл
-  h1= `Результат для ${resultName}`
+  a(href=`/result/file`) Дивитися файл
+  h1= `Результат`
   table
     tr
       th Login
@@ -19,4 +19,3 @@ block content
           else
             td #{res.access_token}
             td #{res.refresh_token}
-  a(href=`/results/${resultName}/file`) Дивитися файл

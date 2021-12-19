@@ -3,7 +3,6 @@
 const app = require("../src/app");
 const FileStorage = require("../src/storages/FileStorage");
 const AppCrawlerRunner = require("../src/AppCrawlerRunner");
-const { delay } = require("../src/utils");
 const http = require("http");
 const open = require("open");
 const fs = require("fs");
@@ -14,7 +13,6 @@ app.set("port", port);
 const server = http.createServer(app);
 
 server.listen(port);
-server.setTimeout(6000000);
 server.on("error", onError);
 server.on("listening", onListening);
 
@@ -57,11 +55,9 @@ function onError(error) {
 }
 
 async function onListening() {
-  const dirs = ["./screens", "./results", "./uploads"];
-  for (let dir of dirs) {
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir);
-    }
+  const dir = "./screens";
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir);
   }
 
   const configsStorage = new FileStorage("configs", { dataType: "object" });
@@ -69,33 +65,18 @@ async function onListening() {
     configsStorage.save({});
   }
 
-  const fileStorage = new FileStorage(`accounts`, { idKey: "login" });
+  const resultStorage = new FileStorage(".result", {
+    idKey: "account",
+  }).clear();
 
-  if (fileStorage.get().length) {
-    const resultStorage = new FileStorage("/results/accounts", {
-      idKey: "account",
-    }).clear();
+  const srcStorage = new FileStorage(`.src`, { idKey: "login" });
+  srcStorage.resave(new FileStorage(`accounts`).get());
 
-    const srcFileStorage = new FileStorage(`/uploads/accounts`, {
-      idKey: "login",
-    });
-    srcFileStorage.resave(fileStorage.get());
+  setTimeout(() => {
+    open(`http://localhost:${port}/result`);
+  }, 5000);
 
-    // setTimeout(() => {
-    //   open(`http://localhost:${port}/results/accounts`);
-    // }, 5000);
+  await new AppCrawlerRunner(srcStorage, resultStorage, configsStorage).run();
 
-    let min;
-    do {
-      if (min) {
-        console.log(`@@@@@ Waiting ${min} min.`);
-        await delay(1000 * 60 * min);
-      }
-      await new AppCrawlerRunner(srcFileStorage, resultStorage).run();
-      min = 2;
-    } while (srcFileStorage.get().length);
-    open(`http://localhost:${port}/results/accounts`);
-  } else {
-    open(`http://localhost:${port}/`);
-  }
+  open(`http://localhost:${port}/result`);
 }

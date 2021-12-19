@@ -1,13 +1,10 @@
 const express = require('express');
 const path = require('path');
 const logger = require('morgan');
-const cookieParser = require('cookie-parser');
-const bodyParser = require('body-parser');
 
 const index = require('./routes/index');
 const results = require('./routes/results');
 const screens = require('./routes/screens');
-const multer = require("multer");
 
 const app = express();
 
@@ -20,7 +17,7 @@ app.use(express.static(path.join(__dirname, '../public')));
 
 app.use('/', index);
 app.use('/screens', screens);
-app.use('/results', results);
+app.use('/result', results);
 
 app.use(function(req, res, next) {
   const err = new Error('Not Found');
@@ -38,7 +35,5 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
-const upload = multer({ dest: 'uploads/' })
 
 module.exports = app;

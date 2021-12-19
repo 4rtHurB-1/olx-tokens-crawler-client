@@ -1,39 +1,14 @@
 const express = require("express");
 const router = express.Router();
-const fs = require("fs");
 
 const FileStorage = require("../storages/FileStorage");
-const { getResultsPath } = require("../utils");
+const resultFileStorage = new FileStorage(`.result`);
+router.get("/file", function (req, res, next) {
+  res.json(resultFileStorage.get());
+});
 
 router.get("/", function (req, res, next) {
-  const filePath = getResultsPath();
-
-  const results = [];
-  fs.readdirSync(filePath).forEach((file) => {
-    results.push(file);
-  });
-
-  res.render("results", { results });
-});
-
-router.get("/:name/file", function (req, res, next) {
-  const result = new FileStorage(
-    `/results/${req.params.name}`,
-    "account"
-  ).get();
-
-  res.json(result);
-});
-
-router.get("/:name", function (req, res, next) {
-  const result = new FileStorage(
-    `/results/${req.params.name}`,
-    "account"
-  ).get();
-  res.render("result", {
-    result,
-    resultName: req.params.name,
-  });
+  res.render("result", { result: resultFileStorage.get() });
 });
 
 module.exports = router;
