@@ -1,7 +1,7 @@
 # olx-tokens-crawler-client
 Парсер токенів
 
-## Запуск в Windows
+## [Запуск в Windows](https://gist.github.com/4rtHurB-1/57d1fe32a786f8b82d2fb7990e46e849)
 1. В Google Chrome відкрити `chrome://version/`
 
 2. Скопіювати "Виконуваний шлях" ("Путь к исполняемому файлу", "Executable Path") і вставити його в файл `configs` `path=`
