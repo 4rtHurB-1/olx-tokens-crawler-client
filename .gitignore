@@ -1,9 +1,11 @@
 node_modules/
-profiles/
-screens/
-uploads/
-results/
 package-lock.json
+
+screens/
 .result
 .src
-exec/
+
+exec/crawler.exe
+exec/.src
+exec/.result
+exec/screens/

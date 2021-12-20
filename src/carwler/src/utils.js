@@ -13,12 +13,12 @@ const getNestedValue = (obj, key) =>
     .split(".")
     .reduce((acc, value) => (acc && acc[value] ? acc[value] : null), obj);
 
-const parseWindowsPath = (str) => str.split(path.sep).join(path.posix.sep);
+const parseExecPath = (str) => str.split(path.sep).join(path.posix.sep);
 
 module.exports = {
   delay,
   getScreenPath,
   getScreenName,
   getNestedValue,
-  parseWindowsPath,
+  parseExecPath,
 };

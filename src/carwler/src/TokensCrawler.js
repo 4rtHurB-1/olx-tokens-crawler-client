@@ -2,7 +2,7 @@ const puppeteer = require("puppeteer-core");
 const fetch = require("node-fetch");
 
 const defaultConfigs = require('../defaultConfigs');
-const { delay, getScreenPath, getNestedValue, parseWindowsPath } = require("./utils");
+const { delay, getScreenPath, getNestedValue, parseExecPath } = require("./utils");
 
 class TokensCrawler {
   static configs = defaultConfigs;
@@ -30,11 +30,11 @@ class TokensCrawler {
     };
 
     if(this._getConfig('browser.path')) {
-      options.executablePath = parseWindowsPath(this._getConfig('browser.path'));
+      options.executablePath = parseExecPath(this._getConfig('browser.path'));
     }
 
     if (this._getConfig('browser.profilesDir')) {
-      options.args.push(`--user-data-dir=${parseWindowsPath(this._getConfig('browser.profilesDir'))}`);
+      options.args.push(`--user-data-dir=${parseExecPath(this._getConfig('browser.profilesDir').replace('Default', ''))}`);
     }
 
     console.log(options);
