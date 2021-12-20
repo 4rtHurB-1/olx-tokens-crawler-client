@@ -67,7 +67,7 @@ class TokensCrawler {
   }
 
   static async loginToAccount(accountCreds) {
-    console.log("----- Input login");
+    console.log(`----- Input login: ${accountCreds.login}`);
 
     await delay(this._getConfig('timeouts.inputLogin'));
     await this.page.evaluate( () => document.getElementById("userEmail").value = "");
@@ -75,7 +75,7 @@ class TokensCrawler {
 
     await delay(this._getConfig('timeouts.inputLogin'));
 
-    console.log("----- Input pass");
+    console.log(`----- Input pass: ${accountCreds.pass}`);
     await this.page.evaluate( () => document.getElementById("userPass").value = "");
     await this.page.type("#userPass", accountCreds.pass);
 

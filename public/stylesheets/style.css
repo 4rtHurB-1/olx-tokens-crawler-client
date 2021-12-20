@@ -49,3 +49,11 @@ input[type=submit] {
     white-space: nowrap;
     word-wrap: break-word;
 }
+
+.completed {
+  color: red;
+}
+
+.in-progress {
+  color: green;
+}

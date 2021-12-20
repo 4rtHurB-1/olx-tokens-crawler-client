@@ -2,7 +2,10 @@ extends layout
 
 block content
   a(href=`/result/file`) Дивитися файл
-  h1= `Результат`
+  if inProgress
+    h2.in-progress= 'В процесі'
+  else
+    h2.completed= 'Завершено'
   table
     tr
       th Login
