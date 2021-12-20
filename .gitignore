@@ -6,6 +6,4 @@ results/
 package-lock.json
 .result
 .src
-accounts
-configs
 exec/

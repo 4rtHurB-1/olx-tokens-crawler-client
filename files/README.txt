@@ -1,5 +1,3 @@
-# olx-tokens-crawler-client
-
 1. В Google Chrome відкрити chrome://version/
 
 2. Скопіювати "Виконуваний шлях"("Путь к исполняемому файлу") і вставити його в файл configs "path"
