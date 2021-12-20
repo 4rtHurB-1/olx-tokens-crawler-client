@@ -11,10 +11,8 @@ module.exports = {
       "width": 1440, 
       "height": 1000 
     },
-    "path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",    // Patch to browser Windows
-    // "path": "/usr/bin/google-chrome-stable",                                 // Patch to browser Linux
-    // "profilesDir": "./profiles"                                              // Patch to Chrome profiles dir Linux
-    "profilesDir": "C:\\Users\\1\\AppData\\Local\\Google\\Chrome\\User Data" // Patch to Chrome profiles dir Windows
+    // "path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",    // Patch to browser Windows                                        // Patch to Chrome profiles dir Linux
+    // "profilesDir": "C:\\Users\\1\\AppData\\Local\\Google\\Chrome\\User Data" // Patch to Chrome profiles dir Windows
   },
 
   "crawlCookies": ["access_token", "refresh_token"]

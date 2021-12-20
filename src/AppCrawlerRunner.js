@@ -26,7 +26,6 @@ module.exports = class AppCrawlerRunner {
   }
 
   async run() {
-    console.log(this.configStorage.get());
     TokensCrawler.setConfigs(this.configStorage.get());
     await TokensCrawler.openBrowser();
 

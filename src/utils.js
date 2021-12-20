@@ -1,4 +1,5 @@
 const path = require("path");
+const os = require("os");
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -12,6 +13,13 @@ const getScreenPath = (screenName) =>
   
 const getResultsPath = () => path.join(process.cwd(), 'results');
 
+const splitTextLines = (str) => {
+  const otherEOL = os.EOL === '\n' ? '\r\n' : '\n';
+  const res = str.split(os.EOL);
+  const resOther = str.split(otherEOL);
+
+  return resOther.length > res.length ? resOther : res;
+}
 
 module.exports = {
   delay,
@@ -19,4 +27,5 @@ module.exports = {
   getScreensPath,
   getScreenPath,
   getResultsPath,
+  splitTextLines,
 };

@@ -1,6 +1,6 @@
 const fs = require("fs");
 const path = require("path");
-const os = require('os');
+const { splitTextLines } = require("../utils");
 
 module.exports = class AccountFileStorage {
   constructor(fileName) {
@@ -33,9 +33,9 @@ module.exports = class AccountFileStorage {
   }
 
   _prepareToGet(data) {
-    return data.split(os.EOL).reduce((acc, str) => {
+    return splitTextLines(data).reduce((acc, str) => {
       const spl = str.split(" pass=");
-      acc.push({login: spl[0], pass: spl[1]});
+      acc.push({ login: spl[0], pass: spl[1] });
       return acc;
     }, []);
   }
