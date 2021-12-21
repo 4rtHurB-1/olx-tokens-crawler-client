@@ -71,11 +71,29 @@ async function onListening() {
   const srcStorage = new FileStorage(`.src`, { idKey: "login" });
   srcStorage.resave(new AccountFileStorage(`accounts`).get());
 
-  setTimeout(() => {
+  let openResultTimer = setTimeout(() => {
     open(`http://localhost:${port}/result`);
   }, 5000);
 
-  await new AppCrawlerRunner(srcStorage, resultStorage, configsStorage).run();
+  try {
+    await new AppCrawlerRunner(srcStorage, resultStorage, configsStorage).run();
+    open(`http://localhost:${port}/result`);
+  } catch(e) {
+    clearTimeout(openResultTimer);
+    const message = e.message;
 
-  open(`http://localhost:${port}/result`);
+    if (message.search("Chrome user data dir not found at") !== -1) {
+      open(`http://localhost:${port}/errors/wrong-dir`);
+    } else if(message.search("Failed to launch the browser process! spawn") !== -1) {
+      open(`http://localhost:${port}/errors/wrong-path`);
+    } else if(message.search("Failed to launch the browser process!") !== -1) {
+      open(`http://localhost:${port}/errors/close-chrome`);
+    }
+
+    // Could not find expected browser (chrome) locally
+    // Failed to launch the browser process! spawn C:/Program Files/Google/Chrome/Application/chroe.exe
+    // Chrome user data dir not found at
+    // Failed to launch the browser process!
+    console.log(e.message);
+  }
 }

@@ -5,6 +5,7 @@ const logger = require('morgan');
 const index = require('./routes/index');
 const results = require('./routes/results');
 const screens = require('./routes/screens');
+const errors = require('./routes/errors');
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use(express.static(path.join(__dirname, '../public')));
 app.use('/', index);
 app.use('/screens', screens);
 app.use('/result', results);
+app.use('/errors', errors);
 
 app.use(function(req, res, next) {
   const err = new Error('Not Found');
