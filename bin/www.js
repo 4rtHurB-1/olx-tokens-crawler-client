@@ -82,18 +82,19 @@ async function onListening() {
     clearTimeout(openResultTimer);
     const message = e.message;
 
+    let code = e.message;
     if (message.search("Chrome user data dir not found at") !== -1) {
-      open(`http://localhost:${port}/errors/wrong-dir`);
+      code = 'wrong-dir';
     } else if(message.search("Failed to launch the browser process! spawn") !== -1) {
-      open(`http://localhost:${port}/errors/wrong-path`);
+      code = 'wrong-path';
     } else if(message.search("Failed to launch the browser process!") !== -1) {
-      open(`http://localhost:${port}/errors/close-chrome`);
+      code = 'close-chrome';
+    } else if(message.search("Could not find expected browser") !== -1) {
+      code = 'empty-config';
     }
 
-    // Could not find expected browser (chrome) locally
-    // Failed to launch the browser process! spawn C:/Program Files/Google/Chrome/Application/chroe.exe
-    // Chrome user data dir not found at
-    // Failed to launch the browser process!
+    open(`http://localhost:${port}/errors/${code}`);
+
     console.log(e.message);
   }
 }

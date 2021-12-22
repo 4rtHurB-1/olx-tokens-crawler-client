@@ -4,7 +4,7 @@ const router = express.Router();
 const ConfigsFileStorage = require("../storages/ConfigsFileStorage");
 
 router.get("/:name", function (req, res, next) {
-  const code = req.params.name;
+  let code = req.params.name;
   let text = ``, message = '';
 
   const configsStorage = new ConfigsFileStorage("configs", { dataType: "object" });
@@ -16,8 +16,14 @@ router.get("/:name", function (req, res, next) {
     message = `Мабуть неправильно вказано path в файлі configs`;
     text = `В chrome://version перевірте чи "Виконуваний шлях" такий самий як тут -> ${configsStorage.get().path}`;
   } else if(code === 'close-chrome') {
-    message = `Мабуть ви не закрили Chrome`
-    text = `Закрийте та вийдіть повністю з нього і спробуйте ще раз...`
+    message = `Мабуть ви не закрили Chrome`;
+    text = `Закрийте та вийдіть повністю з нього і спробуйте ще раз...`;
+  } else if(code === 'empty-config') {
+    message = `Мабуть ви не заповнили вайл configs`;
+    text = `Перегляньте інструкція для запуску і спробуйте ще раз...`;
+  } else {
+    message = code;
+    code = null;
   }
 
   res.render("error", {

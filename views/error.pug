@@ -2,5 +2,13 @@ extends layout
 
 block content
   h1= "Ой, помилка :("
-  h2= message
-  h3= text
+  if code 
+    h2= message
+    h3= text
+  else
+    h3= message
+  a(href=`https://telegra.ph/OLX-Tokens-Crawler-12-21`) Інструкція запуску
+  if code == 'close-chrome'
+    br
+    br
+    img(src='https://telegra.ph/file/6669b7b09392547402841.gif')

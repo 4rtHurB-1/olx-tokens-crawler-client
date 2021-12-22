@@ -40,10 +40,11 @@ class TokensCrawler {
     console.log(options);
     this.browser = await puppeteer.launch(options);
 
-    this.page = await this.browser.newPage();
+    const page = await this.browser.newPage();
     console.log("----- Start log out");
-    await this.page.goto("https://www.olx.ua/uk/account/logout/");
-    await this.page.close();
+    page.goto("https://www.olx.ua/uk/account/logout/").then(() => {
+      page.close();
+    });
   }
 
   static async closeBrowser() {
