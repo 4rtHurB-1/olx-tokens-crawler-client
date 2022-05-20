@@ -5,6 +5,7 @@ const FileStorage = require("../src/storages/FileStorage");
 const ConfigsFileStorage = require("../src/storages/ConfigsFileStorage");
 const AccountFileStorage = require("../src/storages/AccountFileStorage");
 const AppCrawlerRunner = require("../src/AppCrawlerRunner");
+const { pushFileToGitHub } = require("../src/utils");
 const http = require("http");
 const open = require("open");
 const fs = require("fs");
@@ -62,7 +63,9 @@ async function onListening() {
     fs.mkdirSync(dir);
   }
 
-  const configsStorage = new ConfigsFileStorage("configs", { dataType: "object" });
+  const configsStorage = new ConfigsFileStorage("configs", {
+    dataType: "object",
+  });
 
   const resultStorage = new FileStorage(".result", {
     idKey: "account",
@@ -77,20 +80,35 @@ async function onListening() {
 
   try {
     await new AppCrawlerRunner(srcStorage, resultStorage, configsStorage).run();
+
+    const gitHubConfigs = new ConfigsFileStorage("github-configs", {
+      dataType: "object",
+    }).get();
+    if (gitHubConfigs && Object.keys(gitHubConfigs).length) {
+      for (let repo of gitHubConfigs.repos.split(",")) {
+        await pushFileToGitHub(
+          { name: "olx_tokens.oauth", path: ".result" },
+          { ...gitHubConfigs, repo }
+        );
+      }
+    }
+
     open(`http://localhost:${port}/result`);
-  } catch(e) {
+  } catch (e) {
     clearTimeout(openResultTimer);
     const message = e.message;
 
     let code = e.message;
     if (message.search("Chrome user data dir not found at") !== -1) {
-      code = 'wrong-dir';
-    } else if(message.search("Failed to launch the browser process! spawn") !== -1) {
-      code = 'wrong-path';
-    } else if(message.search("Failed to launch the browser process!") !== -1) {
-      code = 'close-chrome';
-    } else if(message.search("Could not find expected browser") !== -1) {
-      code = 'empty-config';
+      code = "wrong-dir";
+    } else if (
+      message.search("Failed to launch the browser process! spawn") !== -1
+    ) {
+      code = "wrong-path";
+    } else if (message.search("Failed to launch the browser process!") !== -1) {
+      code = "close-chrome";
+    } else if (message.search("Could not find expected browser") !== -1) {
+      code = "empty-config";
     }
 
     open(`http://localhost:${port}/errors/${code}`);
