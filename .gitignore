@@ -4,6 +4,7 @@ package-lock.json
 screens/
 .result
 .src
+.errors
 
 exec/crawler.exe
 exec/.src
