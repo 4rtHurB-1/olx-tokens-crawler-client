@@ -71,6 +71,13 @@ async function onListening() {
     idKey: "account",
   }).clear();
 
+  const errorsStorage = new FileStorage(".errors", {
+    idKey: "account",
+  }).clear();
+
+  const inProgressStorage = new FileStorage(`.in-progress`, { dataType: "object" })
+  inProgressStorage.save({ inProgress: true });
+
   const srcStorage = new FileStorage(`.src`, { idKey: "login" });
   srcStorage.resave(new AccountFileStorage(`accounts`).get());
 
@@ -79,11 +86,15 @@ async function onListening() {
   }, 5000);
 
   try {
-    await new AppCrawlerRunner(srcStorage, resultStorage, configsStorage).run();
+    await new AppCrawlerRunner(
+      srcStorage,
+      resultStorage,
+      configsStorage,
+      errorsStorage
+    ).run();
 
-    const gitHubConfigs = new ConfigsFileStorage("github-configs", {
-      dataType: "object",
-    }).get();
+    const gitHubConfigs = new ConfigsFileStorage("github-configs").get();
+
     if (gitHubConfigs && Object.keys(gitHubConfigs).length) {
       for (let repo of gitHubConfigs.repos.split(",")) {
         await pushFileToGitHub(
@@ -93,6 +104,7 @@ async function onListening() {
       }
     }
 
+    inProgressStorage.save({ inProgress: false });
     open(`http://localhost:${port}/result`);
   } catch (e) {
     clearTimeout(openResultTimer);

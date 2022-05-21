@@ -1,11 +1,14 @@
 const { CrawlerRunner, TokensCrawler } = require("./carwler");
 const { delay } = require("./utils");
+const MAX_ERRORS_PER_ACCOUNT = 2;
 
 module.exports = class AppCrawlerRunner {
-  constructor(srcStorage, resultStorage, configStorage) {
+  constructor(srcStorage, resultStorage, configStorage, errorsStorage) {
     this.srcStorage = srcStorage;
     this.resultStorage = resultStorage;
     this.configStorage = configStorage;
+    this.errorsStorage = errorsStorage;
+    this.errorStats = {};
   }
 
   async process() {
@@ -17,10 +20,17 @@ module.exports = class AppCrawlerRunner {
       accounts,
       browserConfigs && browserConfigs.length ? browserConfigs : null
     )
-      .onItemCrawl((crawledResult) => this.resultStorage.save(crawledResult))
+      .onItemCrawl((crawledResult) => {
+        this.resultStorage.save(crawledResult);
+        this.errorsStorage.delete(crawledResult);
+      })
       .onError((account, crawlerResult) => {
-        this.srcStorage.save(account);
-        this.resultStorage.save(crawlerResult);
+        this.errorStats[account] = (this.errorStats[account] || 0) + 1;
+
+        this.errorsStorage.save(crawlerResult);
+        if (this.errorStats[account] < MAX_ERRORS_PER_ACCOUNT) {
+          this.srcStorage.save(account);
+        }
       })
       .run();
   }

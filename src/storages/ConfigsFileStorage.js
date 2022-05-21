@@ -35,7 +35,9 @@ module.exports = class ConfigsFileStorage {
   _prepareToGet(data) {
     return splitTextLines(data).reduce((acc, str) => {
       const spl = str.split("=");
-      acc[spl[0]] = spl[1];
+      if(spl[0] && spl[1]) {
+        acc[spl[0]] = spl[1];
+      }
       return acc;
     }, {});
   }
