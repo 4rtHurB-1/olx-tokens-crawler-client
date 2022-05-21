@@ -24,8 +24,8 @@ const splitTextLines = (str) => {
 
 async function pushFileToGitHub(file, gitHubCreds) {
   try {
-    if (!process.env.GITHUB_API_TOKEN) {
-      throw new Error("GITHUB_API_TOKEN=xxx node example.js");
+    if (!gitHubCreds.apiToken) {
+      throw new Error("GitHub api token required");
     }
 
     const koreFile = createKoreFile({
@@ -33,7 +33,7 @@ async function pushFileToGitHub(file, gitHubCreds) {
         owner: gitHubCreds.owner,
         repo: gitHubCreds.repo,
         ref: gitHubCreds.branch,
-        token: process.env.GITHUB_API_TOKEN,
+        token: gitHubCreds.apiToken,
       }),
     });
 
@@ -44,7 +44,7 @@ async function pushFileToGitHub(file, gitHubCreds) {
 
     console.log(`Success push file ${file.name} to GitHub repository ${gitHubCreds.repo}`);
   } catch (e) {
-    console.error(err);
+    console.error(e.message);
   }
 }
 

@@ -4,7 +4,7 @@
   "private": true,
   "main": "./bin/www.js",
   "scripts": {
-    "start": "GITHUB_API_TOKEN=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 node ./bin/www",
+    "start": "node ./bin/www",
     "make-exec": "pkg --output exec/crawler ."
   },
   "bin": "./bin/www.js",
