@@ -5,6 +5,10 @@ screens/
 .result
 .src
 .errors
+.in-progress
+accounts
+configs
+github-configs
 
 exec/crawler.exe
 exec/.src

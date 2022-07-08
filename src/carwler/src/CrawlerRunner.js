@@ -1,17 +1,10 @@
 const TokensCrawler = require("./TokensCrawler");
-const defaultConfigs = require("../defaultConfigs");
 const { delay, getScreenName, getNestedValue } = require("./utils");
 
 module.exports = class CrawlerRunner {
-  constructor(accounts, browserConfigs) {
+  constructor(accounts, configs) {
     this.accounts = accounts;
-    this.configs = { 
-      ...defaultConfigs,
-      browser: {
-        ...defaultConfigs.browser,
-        ...browserConfigs
-      } 
-    };
+    this.configs = configs;
 
     TokensCrawler.setConfigs(this.configs);
   }
@@ -27,9 +20,7 @@ module.exports = class CrawlerRunner {
   }
 
   _getConfig(name) {
-    return (
-      getNestedValue(this.configs, name) || getNestedValue(defaultConfigs, name)
-    );
+    return getNestedValue(this.configs, name);
   }
 
   async run() {
@@ -51,7 +42,7 @@ module.exports = class CrawlerRunner {
         }
 
         console.log(`----- Waiting...`);
-        await delay(this._getConfig('timeouts.perAccount'));
+        await delay(this._getConfig("waitBeforeLoginToAccount") * 1000);
       } catch (e) {
         console.log(`----- Error: ${e.message}`);
 

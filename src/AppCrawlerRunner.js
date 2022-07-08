@@ -1,25 +1,33 @@
 const { CrawlerRunner, TokensCrawler } = require("./carwler");
 const { delay } = require("./utils");
-const MAX_ERRORS_PER_ACCOUNT = 2;
+
+const defaultConfigs = require("./defaultConfigs");
 
 module.exports = class AppCrawlerRunner {
   constructor(srcStorage, resultStorage, configStorage, errorsStorage) {
     this.srcStorage = srcStorage;
     this.resultStorage = resultStorage;
-    this.configStorage = configStorage;
     this.errorsStorage = errorsStorage;
+
+    const inputConfigs = configStorage.get();
+    this.configs = {
+      ...defaultConfigs,
+      ...inputConfigs,
+    };
+
     this.errorStats = {};
+    console.log("#### Configs", this.configs);
   }
 
   async process() {
-    const browserConfigs = this.configStorage.get();
-    const accounts = this.srcStorage.get().slice(0, 5);
-    this.srcStorage.resave(this.srcStorage.get().slice(5));
+    const accounts = this.srcStorage
+      .get()
+      .slice(0, this.configs.countLoginsPerOnce);
+    this.srcStorage.resave(
+      this.srcStorage.get().slice(this.configs.countLoginsPerOnce)
+    );
 
-    await new CrawlerRunner(
-      accounts,
-      browserConfigs && browserConfigs.length ? browserConfigs : null
-    )
+    await new CrawlerRunner(accounts, this.configs)
       .onItemCrawl((crawledResult) => {
         this.resultStorage.save(crawledResult);
         this.errorsStorage.delete(crawledResult);
@@ -28,7 +36,7 @@ module.exports = class AppCrawlerRunner {
         this.errorStats[account] = (this.errorStats[account] || 0) + 1;
 
         this.errorsStorage.save(crawlerResult);
-        if (this.errorStats[account] < MAX_ERRORS_PER_ACCOUNT) {
+        if (this.errorStats[account] < this.configs.maxErrorsPerAccount) {
           this.srcStorage.save(account);
         }
       })
@@ -36,21 +44,22 @@ module.exports = class AppCrawlerRunner {
   }
 
   async run() {
-    TokensCrawler.setConfigs(this.configStorage.get());
+    TokensCrawler.setConfigs(this.configs);
     await TokensCrawler.openBrowser();
 
-    let min;
+    let waitBeforeNextLogins;
     do {
-      if (min) {
-        console.log(`@@@@@ Waiting ${min} min.`);
-        await delay(1000 * 60 * min);
+      if (waitBeforeNextLogins) {
+        console.log(`@@@@@ Waiting ${waitBeforeNextLogins / 60} min.`);
+        await delay(waitBeforeNextLogins * 1000);
       }
+
       try {
         await this.process();
       } catch (e) {
         console.log(e.message);
       }
-      min = 2;
+      waitBeforeNextLogins = this.configs.waitBeforeNextLogins;
     } while (this.srcStorage.get().length);
 
     await TokensCrawler.closeBrowser();
